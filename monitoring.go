@@ -14,6 +14,7 @@ type MonitoringStats struct {
 	NumGC            uint32
 	ServerStartedAt  string
 	ActiveUsersCount int
+	NumGoRoutines    int
 }
 
 func (m *MonitoringStats) ToJSON() (stringified string, err error) {
@@ -38,11 +39,12 @@ func PrintMemUsage() MonitoringStats {
 	// For info on each, see: https://golang.org/pkg/runtime/#MemStats
 
 	return MonitoringStats{
-		Alloc:      bToMb(m.Alloc),
-		TotalAlloc: bToMb(m.TotalAlloc),
-		HeapAlloc:  bToMb(m.HeapAlloc),
-		Sys:        bToMb(m.Sys),
-		NumGC:      m.NumGC,
+		Alloc:         bToMb(m.Alloc),
+		TotalAlloc:    bToMb(m.TotalAlloc),
+		HeapAlloc:     bToMb(m.HeapAlloc),
+		Sys:           bToMb(m.Sys),
+		NumGC:         m.NumGC,
+		NumGoRoutines: runtime.NumGoroutine(),
 	}
 }
 
